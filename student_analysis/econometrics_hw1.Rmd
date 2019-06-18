@@ -1,0 +1,121 @@
+---
+title: "中級計量経済学宿題１"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+<br>
+
+### 必要なパッケージのインストール
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(stargazer)
+require(car)
+```
+
+<br>
+
+## モデル１の分析
+
+```{r cars}
+stu_data=read.csv2('student-mat.csv')
+traveltime=stu_data$traveltime
+studytime=stu_data$studytime
+freetime=stu_data$freetime
+grade=stu_data$G3
+model1<-lm(grade~traveltime+studytime+freetime)
+summary(model1)
+
+```
+
+<br>
+
+### VIF値の計算
+```{r}
+vif(model1)
+```
+
+<br>
+
+## モデル２の分析
+```{r}
+medu<-stu_data$Medu
+fedu<-stu_data$Fedu
+schoolsup<-stu_data$schoolsup
+famsup<-stu_data$famsup
+paid<-stu_data$paid
+model2<-lm(grade~medu+fedu+schoolsup+famsup+paid)
+summary(model2)
+```
+
+<br>
+
+### VIF値の計算
+```{r}
+vif(model2)
+```
+
+<br>
+
+
+## モデル３の分析
+
+```{r}
+activities<-stu_data$activities
+internet<-stu_data$internet
+romantic <-stu_data$romantic 
+goout <-stu_data$goout 
+model3<-lm(grade~activities+internet+romantic+goout)
+summary(model3)
+```
+
+<br>
+
+### VIF値の計算
+
+```{r}
+vif(model3)
+```
+
+
+<br>
+
+## モデル４の分析
+
+```{r}
+famsize<-stu_data$famsize
+model4<-lm(grade~medu+fedu+famsize)
+summary(model4)
+```
+
+
+<br>
+
+### VIF値の計算
+```{r}
+vif(model4)
+```
+
+<br>
+
+### 各種モデルまとめ
+```{r}
+stargazer(model1,model2,model3,model4,type = "text", single.row = TRUE)
+```
+
+<br>
+
+### 赤池情報量基準の計算
+
+```{r}
+AIC(model1)
+AIC(model2)
+AIC(model3)
+AIC(model4)
+```
+
+
